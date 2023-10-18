@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charger les pays</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <button type="button" class="btn btn-primary mb-3" id="loadCountriesBtn">Charger les pays</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Country Code</th>
+                    <th scope="col">Country Name</th>
+                </tr>
+            </thead>
+            <tbody id="countriesTableBody"></tbody>
+        </table>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('loadCountriesBtn').addEventListener('click', function() {
+            fetch('countries.json')
+                .then(response => response.json())
+                .then(data => {
+                    var countriesTableBody = document.getElementById('countriesTableBody');
+                    countriesTableBody.innerHTML = ''; 
+                    for (var code in data) {
+                        var row = document.createElement('tr');
+                        var countryCodeCell = document.createElement('td');
+                        var countryNameCell = document.createElement('td');
+                        countryCodeCell.textContent = code;
+                        countryNameCell.textContent = data[code];
+                        row.appendChild(countryCodeCell);
+                        row.appendChild(countryNameCell);
+                        countriesTableBody.appendChild(row);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+</body>
+
+</html>
